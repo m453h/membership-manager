@@ -9,7 +9,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BenefitRepository")
  * @ORM\Table(name="cfg_benefits")
  * @Vich\Uploadable
  */

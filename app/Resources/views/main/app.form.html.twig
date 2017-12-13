@@ -9,21 +9,22 @@
 
 <div class="panel">
     <div class="panel-title col12">
-        <div class="container"><h1>{{ title }}</h1></div>
+        <div class="container"><h1>{% block formTitle  %} {% endblock %}</h1></div>
     </div>
 
      <div class="white-space panel-body">
          <div class="container">
              <div class="clear space-20"></div>
-             <div class="{% if isFullWidth is defined %}col12 {% else %}col6{% endif %} user-form">
-                 {{ include("forms/#{ formTemplate }") }}
+             <div class="col12 user-form">
+                 {% block form %}
+
+                 {% endblock %}
              </div>
              <div class='clear space-20'></div>
          </div>
 
      </div>
 </div>
-
 
 {% endblock %}
 

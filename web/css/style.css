@@ -1138,10 +1138,9 @@ table.data-grid th{
 	border-bottom:2px solid #E7ECF1;
 }
 
-table.data-grid th a,table.data-grid th span{
+table.data-grid th a,table.data-grid th{
 	text-decoration: none;
 	color:#777777;
-	display: block;
 	padding:15px 10px;
 }
 
@@ -1608,6 +1607,10 @@ ul.file-list li a:hover{
 	div.pagination-list{
 		text-align: center;
 	}
+
+    div.action-bar{
+        height:40px;
+    }
 
 
 }

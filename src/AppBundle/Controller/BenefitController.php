@@ -1,11 +1,9 @@
 <?php
 
-namespace AppBundle\Controller\Configuration;
+namespace AppBundle\Controller;
 
-use AppBundle\Entity\Configuration\BusinessType;
-use AppBundle\Entity\Configuration\Company;
-use AppBundle\Form\Configuration\BusinessTypeFormType;
-use AppBundle\Form\Configuration\CompanyFormType;
+use AppBundle\Entity\Benefit;
+use AppBundle\Form\BenefitFormType;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -15,74 +13,58 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
-class BusinessTypeController extends Controller
+class BenefitController extends Controller
 {
 
     /**
-     * @Route("/administration/business-type", name="business_type_list")
+     * @Route("/benefit-list", name="list_benefit")
      * @param Request $request
      * @return Response
      *
      */
     public function listAction(Request $request)
     {
-        $class = get_class($this);
-        
-        $this->denyAccessUnlessGranted('view',$class);
 
+        //This is a query string parameter that lets us know which page we are viewing
         $page = $request->query->get('page',1);
-        $options['sortBy'] = $request->query->get('sortBy');
-        $options['sortType'] = $request->query->get('sortType');
-        $options['name'] = $request->query->get('name');
 
+        //This is a user defined parameter that tells us the maximum results to render per page
         $maxPerPage = $this->getParameter('grid_per_page_limit');
 
+        //Your entity manager for manipulating database connections
         $em = $this->getDoctrine()->getManager();
 
-        $qb1 = $em->getRepository('AppBundle:Configuration\BusinessType')
-            ->findAllBusinessTypes($options);
+        //Your custom Doctrine DBAL Query for getting list of All Benefits
+        $qb1 = $em->getRepository('AppBundle:Benefit')
+            ->findAllBenefits();
 
-        $qb2 = $em->getRepository('AppBundle:Configuration\BusinessType')
-            ->countAllBusinessTypes($qb1);
+        //Your custom Doctrine DBAL Query for counting the number of All Benefits
+        $qb2 = $em->getRepository('AppBundle:Benefit')
+            ->countAllBenefits($qb1);
 
+        //This is a custom Library (PagerFanta that helps us to Paginate Our Results Page)
         $adapter =new DoctrineDbalAdapter($qb1,$qb2);
-        $dataGrid = new Pagerfanta($adapter);
-        $dataGrid->setMaxPerPage($maxPerPage);
-        $dataGrid->setCurrentPage($page);
-        $dataGrid->getCurrentPageResults();
-        
-        //Configure the grid
-        $grid = $this->get('app.helper.grid_builder');
-        $grid->addGridHeader('S/N',null,'index');
-        $grid->addGridHeader('Description','description','text',false);
-        $grid->addGridHeader('Actions',null,'action');
-        $grid->setStartIndex($page,$maxPerPage);
-        $grid->setPath('business_type_list');
-        $grid->setCurrentObject($class);
-        $grid->setButtons();
-        
+        $data = new Pagerfanta($adapter);
+        $data->setMaxPerPage($maxPerPage);
+        $data->setCurrentPage($page);
+        $data->getCurrentPageResults();
+
         //Render the output
         return $this->render(
-            'main/app.list.html.twig',array(
-                'records'=>$dataGrid,
-                'grid'=>$grid,
-                'title'=>'Existing Business Types',
-                'gridTemplate'=>'lists/base.list.html.twig'
+            'lists/benefit.html.twig',array(
+                'records'=>$data,
+                'title'=>'List of Benefits',
         ));
     }
 
     /**
-     * @Route("/administration/business-type/add", name="business_type_add")
+     * @Route("/add-benefit", name="add_benefit")
      * @param Request $request
      * @return Response
      */
     public function newAction(Request $request)
     {
-        $class = get_class($this);
-        
-        $this->denyAccessUnlessGranted('add',$class);
-
-        $form = $this->createForm(BusinessTypeFormType::class);
+        $form = $this->createForm(BenefitFormType::class);
 
         // only handles data on POST
         $form->handleRequest($request);
@@ -91,22 +73,18 @@ class BusinessTypeController extends Controller
         {
             $data = $form->getData();
             $em = $this->getDoctrine()->getManager();
-            $transformer = $this->get('app.helper.url_transformer');
-            $data->setIdentifier($transformer->stringToURL($data->getDescription()));
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success','Business Type successfully created');
+            $this->addFlash('success','Benefit successfully created');
 
-            return $this->redirectToRoute('business_type_list');
+            return $this->redirectToRoute('list_benefit');
         }
 
         return $this->render(
-            'main/app.form.html.twig',
+            'forms/benefit.html.twig',
             array(
-                'formTemplate'=>'configuration/business.type',
                 'form'=>$form->createView(),
-                'title'=>'Business Type Details',
             )
 
         );
@@ -114,18 +92,14 @@ class BusinessTypeController extends Controller
 
 
     /**
-     * @Route("/administration/business-type/edit/{businessTypeId}", name="business_type_edit")
+     * @Route("/edit-benefit/{benefitId}", name="edit_benefit")
      * @param Request $request
-     * @param BusinessType $businessType
+     * @param Benefit $benefit
      * @return Response
      */
-    public function editAction(Request $request,BusinessType $businessType)
+    public function editAction(Request $request,Benefit $benefit)
     {
-        $class = get_class($this);
-
-        $this->denyAccessUnlessGranted('edit',$class);
-
-        $form = $this->createForm(BusinessTypeFormType::class,$businessType);
+        $form = $this->createForm(BenefitFormType::class,$benefit);
 
         $form->handleRequest($request);
 
@@ -133,58 +107,49 @@ class BusinessTypeController extends Controller
         {
 
             $data = $form->getData();
-
-            $transformer = $this->get('app.helper.url_transformer');
-            $data->setIdentifier($transformer->stringToURL($data->getDescription()));
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success', 'Business type successfully updated!');
+            $this->addFlash('success', 'Benefit successfully updated!');
 
-            return $this->redirectToRoute('business_type_list');
+            return $this->redirectToRoute('list_benefit');
         }
 
         return $this->render(
-            'main/app.form.html.twig',
+            'forms/benefit.html.twig',
             array(
-                'formTemplate'=>'configuration/business.type',
                 'form'=>$form->createView(),
-                'title'=>'Business Type Details',
             )
 
         );
     }
 
     /**
-     * @Route("/administration/business-type/delete/{businessTypeId}", name="business_type_delete")
-     * @param $businessTypeId
+     * @Route("/delete-benefit/{benefitId}", name="delete_benefit")
+     * @param $benefitId
      * @return Response
      * @internal param Request $request
      */
-    public function deleteAction($businessTypeId)
+    public function deleteAction($benefitId)
     {
-        $class = get_class($this);
-        
-        $this->denyAccessUnlessGranted('delete',$class);
-
         $em = $this->getDoctrine()->getManager();
 
-        $data = $em->getRepository('AppBundle:Configuration\BusinessType')->find($businessTypeId);
+        $data = $em->getRepository('AppBundle:Benefit')->find($benefitId);
 
-        if($data instanceof BusinessType)
+        if($data instanceof Benefit)
         {
             $em->remove($data);
             $em->flush();
-            $this->addFlash('success', 'Business type successfully removed !');
+            $this->addFlash('success', 'Benefit successfully removed !');
         }
         else
         {
-            $this->addFlash('error', 'Business type not found !');
+            $this->addFlash('error', 'Benefit not found !');
         }
 
         
-        return $this->redirectToRoute('business_type_list');
+        return $this->redirectToRoute('list_benefit');
 
     }
     

@@ -1,6 +1,12 @@
-{% extends ':main:app.list.html.twig' %}
+{% extends ':main:app.form.html.twig' %}
 
 {% block formTitle %}
-    Add Benefit Details
+    Benefit Details
 {% endblock %}
 
+{% block form %}
+    {{ form_start(form) }}
+    {{ form_row(form.description) }}
+    <button type="submit" class="btn btn-primary" formnovalidate>Save</button>
+    {{ form_end(form) }}
+{% endblock %}

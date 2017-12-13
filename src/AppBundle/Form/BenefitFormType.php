@@ -2,11 +2,12 @@
 
 namespace AppBundle\Form;
 
+use AppBundle\Entity\Benefit;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BenefitForm extends  AbstractType
+class BenefitFormType extends  AbstractType
 {
 
     public function buildForm(FormBuilderInterface $builder, array $options)
