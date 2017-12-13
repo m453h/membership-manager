@@ -14,8 +14,9 @@
                         {{ form_row(form._username) }}
                         {{ form_row(form._password) }}
                     <div class="space-10"></div>
-                    <button type="submit" class="btn btn-primary btn-full fade" formnovalidate>Login <span class="fa fa-lock"></span></button>
-                        {{ form_end(form) }}
+                    <!--<button type="submit" class="btn btn-primary btn-full fade" formnovalidate>Login <span class="fa fa-lock"></span></button>-->
+                        <a href="{{ path('app_home_page') }}" class="btn btn-primary" style="display:block;" >Login</a>
+                    {{ form_end(form) }}
                 </div>
                 <div class="clear"></div>
                 <div class="space-20"></div>

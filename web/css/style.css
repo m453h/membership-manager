@@ -168,8 +168,8 @@ div.container{
 
 /* Styling Login Area */
 img.app-logo{
-	height:95px;
-	padding-top:8px;
+	height: 70px;
+	padding-top: 8px;
 }
 
 img.app-main-logo{
@@ -212,10 +212,11 @@ div.header .logo{
 	width: 240px;
 	height: 60px;
 	float: left;
-	background: #039BE5;
+    background:#C50C24;
 }
 
 div.header .logo img{
+	margin-left: 24px;
 }
 
 div.login-area{
@@ -237,7 +238,7 @@ div.app-underline{
 	padding-top:15px;
 }
 div.login-area img {
-	padding-bottom:10px;
+	padding-bottom:21px;
 }
 div.login-form-container{
 	margin:0px auto 10px auto;
@@ -810,7 +811,7 @@ ul#sidebar-menu li a:hover,a.app-sidebar-link:hover{
 }
 
 ul#sidebar-menu li a.ui-accordion-header-active, ul.sidebar-menu li.current {
-	background-color: #008AE8;
+	background-color: #C50C24;
 	color: #FFF;
 }
 
@@ -839,7 +840,7 @@ ul#sidebar-menu li.current_ancestor a{
 }
 
 #sidebar-menu ul.menu_level_1 li.current a{
-	border-left:2px solid #337AB7;
+	border-left:2px solid #C50C24;
 	background:#373c47;
 }
 
