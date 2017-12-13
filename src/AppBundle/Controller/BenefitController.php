@@ -92,7 +92,7 @@ class BenefitController extends Controller
 
 
     /**
-     * @Route("/edit-benefit/{benefitId}", name="edit_benefit")
+     * @Route("/edit-benefit/{benefitId}", name="edit_benefit",defaults={"benefitId" = null})
      * @param Request $request
      * @param Benefit $benefit
      * @return Response
@@ -126,7 +126,7 @@ class BenefitController extends Controller
     }
 
     /**
-     * @Route("/delete-benefit/{benefitId}", name="delete_benefit")
+     * @Route("/delete-benefit/{benefitId}", name="delete_benefit",defaults={"benefitId" = null})
      * @param $benefitId
      * @return Response
      * @internal param Request $request
