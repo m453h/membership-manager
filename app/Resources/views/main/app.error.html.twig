@@ -1,0 +1,27 @@
+{% extends 'main/app.base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}
+
+{% block content %}
+     {{ parent() }}
+
+    <div class="col12 error-page align-center white-background">
+        <div class="section-inner">
+            <div class="col12 space"></div>
+            <div class="error-image"><img src="{{ asset('images/icons/locked.png') }}" alt="Locked" height="250" class="error-image"></div>
+            <div class="error-description">
+                <h1>{{ title }}</h1>
+                <p>{{ message }}</p>
+            </div>
+        </div>
+        <div class="col12 space"></div>
+    </div>
+{% endblock %}
+
+{% block javascripts %}
+     {{ parent() }}
+     <script src="{{ asset('js/ajax.js') }}"></script>
+{% endblock %}
+

@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+ {% block stylesheets %}
+     {{ parent() }}
+ {% endblock %}
+
+{% block body %}
+
+    {{ parent() }}
+
+    <div class='col3 menu'>
+        <a href="{{ path('app_home_page') }}" class="app-sidebar-link"> <span class="icon-spacer-right"><i class="fa fa-home"></i></span>Home</a>
+        {{ knp_menu_render('main',{'template': ':menu:menu.html.twig'}) }}
+    </div>
+
+    <div class='col9 last' id='content'>
+        <div class='section-outer'>
+            <div class="page-title white-space col12">
+                <div class="container no-mobile" id="nav">
+                    {{ knp_menu_render('main', {'template': ':menu:breadcrumb.html.twig'}) }}
+                </div>
+            </div>
+            <div class="clear"></div>
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+
+{% endblock %}
+

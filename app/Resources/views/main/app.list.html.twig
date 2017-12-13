@@ -1,0 +1,175 @@
+{% extends 'main/app.base.html.twig' %}
+
+ {% block content %}
+     {{ parent() }}
+
+    <div class="panel">
+         <div class="panel-title col12">
+             <div class="container"><h1>{{ title }}</h1></div>
+         </div>
+         <div class="white-space panel-body">
+             <div class="container">
+                 <div class="clear space-20"></div>
+                 {{ include("main/app.flash.message.html.twig") }}
+
+                 <div class="action-bar col12">
+
+                     <div class="col7">
+                         {% set headers = grid.getGridHeaders() %}
+                         {% set buttons = grid.getButtons() %}
+                         {% set ignoredButtons = grid.getIgnoredButtons() %}
+                         {% set path = path(grid.getPath()) %}
+                         {% if grid.parentValue != null %}
+                              {% set path = path~'/'~grid.parentValue %}
+                         {% endif %}
+
+
+                         {% if headers|last['columnType'] == 'action' %}
+                            {% set hasAction = true %}
+                         {% else %}
+                            {% set hasAction = false %}
+                         {% endif %}
+
+                         {% if 'add' in buttons and 'add' not in ignoredButtons  %}
+                            <a href="{{ path }}/add" class="btn btn-primary add-btn">Add <i class="fa fa-plus"></i></a>
+                         {% else %}
+                             <p></p>
+                         {% endif %}
+                     </div>
+
+                     <div class="col5 last search-form">
+                         {% if 'bulk-upload' in buttons and 'bulk-upload' not in ignoredButtons %}
+                             <a href="{{ path }}/upload" class="btn btn-green">Bulk upload <i class="fa fa-file-excel-o"></i></a>
+                         {% else %}
+                             <p></p>
+                         {% endif %}
+                     </div>
+                 </div>
+                {% set searchGrid="<tr><form action=''>" %}
+                 {% set hasSearchGrid=false %}
+
+                 <div class="col12 space-10"></div>
+                 <div class="data-grid-container">
+                     <table class="data-grid">
+                         <thead>
+                         {% set searchText="" %}
+                           {% for header in headers %}
+                               {% if app.request.get(header.link)!=null %}
+                                    {% if searchText!=null %}
+                                        {%set searchText="&"~searchText  %}
+                                    {% endif %}
+                                    {% set searchText=searchText~header.link~"="~app.request.get(header.link)%}
+                                {% endif %}
+                           {% endfor %}
+
+                             {% for header in headers %}
+                                 {% if header.link is null %}
+                                         <th class="{% if header.class is not null  %}{{ header.class }}{% endif %}"><span>{{ header.name }}</span></th>
+                                      {% if header.columnType=='action' %}
+                                          {% set searchGrid=searchGrid~'<td class="align-center"><button type="submit" class="btn btn-primary">Search</button></td>' %}
+                                      {% else %}
+                                            {% set searchGrid=searchGrid~"<td></td>" %}
+                                      {% endif %}
+                                 {% else %}
+                                         <th class="{% if header.class is not null  %}{{ header.class }}{% endif %}"><a href="?sortBy={{ header.link}}&sortType={{ header.sortType }}&{{ searchText }}" class="disable-follow">{{ header.name }}</a></th>
+                                         {% if header.isFilter == true %}
+                                             {% set searchGrid=searchGrid~"<td><input type='text' name='"~header.link~"' value='"~app.request.get(header.link)~"' /></td>" %}
+                                             {% set hasSearchGrid=true %}
+                                         {% else %}
+                                             {% set searchGrid=searchGrid~"<td></td>" %}
+
+                                         {% endif %}
+
+                                 {% endif %}
+                             {% endfor %}
+
+                         {% if hasSearchGrid == false %}
+                             {% set searchGrid="" %}
+                         {% endif %}
+
+                         </thead>
+                         <tbody>
+                         {% set counter = grid.getstartIndex() %}
+                         {% set searchGrid=searchGrid~"</form></tr>" %}
+                         {{ searchGrid | raw }}
+                         {% for record in records %}
+                                <tr {% if loop.index%2 !=0 %} class="odd"{% endif %}>
+                                    {% include gridTemplate %}
+                                    {% if hasAction == true %}
+                                        <td class="action align-center">
+                                        {% if 'edit' in buttons and 'edit' not in ignoredButtons %}
+                                           <a href="{{ path }}/edit/{{ record|first }}" class="btn btn-yellow" title="Click to edit record"><i class="fa fa-pencil"></i></a>
+                                        {% endif %}
+
+                                        {% if 'approve' in buttons and 'info' not in buttons and 'approve' not in ignoredButtons %}
+                                            {% if record.status == 0 %}
+                                                <a href="{{ path }}/activate/{{ record|first }}" class="btn btn-green" title="Click to activate"><i class="fa fa-check"></i></a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if 'decline' in buttons and 'info' not in buttons and 'decline' not in ignoredButtons %}
+                                            {% if record.status == 1 %}
+                                                <a href="{{ path }}/deactivate/{{ record|first }}" class="btn btn-dark" title="Click to deactivate"><i class="fa fa-ban"></i></a>
+                                            {% endif %}
+                                        {% endif %}
+
+                                        {% if 'delete' in buttons and 'delete' not in ignoredButtons %}
+                                            <a href="{{ path }}/delete/{{ record|first }}" class="btn btn-red confirm-delete-modal" title="Click to delete record"><i class="fa fa-trash"></i></a>
+                                        {% endif %}
+
+                                        {% if 'info' in buttons and 'info' not in ignoredButtons %}
+                                            <a href="{{ path }}/info/{{ record|first }}" class="btn btn-blue" title="Click to view more details"><i class="fa fa-info-circle"></i></a>
+                                        {% endif %}
+
+
+                                        {% if 'more' in buttons  and 'more' not in ignoredButtons %}
+                                            <a href="{{ path(grid.getSecondaryPath()) }}/{{ record|first }}" class="btn btn-blue"><i class="fa fa-arrow-right"></i></a>
+                                        {% endif %}
+
+                                        {% if 'grouped' in buttons and 'grouped' not in ignoredButtons %}
+                                            <ul class="button-menu dropdown">
+                                                <li>
+                                                    <a href="#" class="btn btn-green" title="Upload Results"><i class="fa fa-upload"></i></a>
+                                                    <ul class='sub-menu'>
+                                                        {% if 'upload-results' in buttons %}
+                                                            <a href="#">Upload results</a>
+                                                        {% endif %}
+
+                                                        {% if 'view-results' in buttons %}
+                                                            <a href="#">Register Modules</a>
+                                                        {% endif %}
+                                                        <li><a href="#">Configure Programs</a></li>
+                                                        <li><a href="#">Configure Curriculum</a></li>
+                                                        <li><a href="#">Configure Settings</a></li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        {% endif %}
+                                        </td>
+                                    {% endif %}
+
+                                    {% set counter = counter + 1 %}
+                                </tr>
+                            {% endfor %}
+                         </tbody>
+                     </table>
+                     <div class="pagination-list">
+                         {{ pagerfanta(records,'twitter_bootstrap3_translated') }}
+                     </div>
+                 </div>
+                 <div class="clear"></div>
+                 <div class="space-20"></div>
+             </div>
+
+         </div>
+        <div id="dialog" title="" class="dialog-title" style="display:none">
+            <p><span class="dialog-message"></span></p>
+        </div>
+    </div>
+
+     <div class="space-20"></div>
+
+ {% endblock %}
+
+
+

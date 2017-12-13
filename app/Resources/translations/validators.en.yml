@@ -1,0 +1,4 @@
+"This value should not be blank.": Hi! Please enter *something* for this field :)
+"Username could not be found.": Unknown username or password :(
+"Invalid credentials.": Unknown username or password :(
+"form.value.not_blank": This value is required

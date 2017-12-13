@@ -1,0 +1,76 @@
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+    padding: 0;
+}
+p{
+    margin: 0 0 1em 0;
+    font-size: 93%;
+}
+body{
+    font-family: Arial, serif;
+    padding: 0;
+    margin: 0;
+    font-size:0.8em;
+    background:#FFFFFF;
+}
+
+img.logo{
+    height:105px;
+}
+div.reportHeader{
+    text-align:center;
+}
+div.reportHeader h2{
+    text-transform:uppercase;
+    color:#000000;
+    margin-bottom: 3px;
+    font-size:1.25em;
+}
+
+.reportBody table{
+    text-align:left;
+    font-size:1em;
+    width:100%;
+    border:1px solid #000000;
+    border-collapse:collapse;
+    margin-top:10px;
+}
+.reportBody td, .reportBody th{
+    border:1px solid #000000;
+    padding:4px;
+}
+.reportBody td.align-right{
+    text-align: right;
+}
+
+.reportBody th{
+    background: #DDD;
+    text-transform: uppercase;
+    color: #000;
+    vertical-align: center;
+
+}
+.reportBody td.money{
+    text-align:right;
+}
+div.summary{
+    text-align:left;
+    font-weight:normal;
+}
+td.no-border-right{
+    border-right:0;
+    border-left:0;
+}
+td.bolder{
+    font-weight:bolder;
+}
+tr.grey{
+    background:#EEEEEE;
+}
+.align-center{
+    text-align: center;
+}
+.child-headers th{
+    background:#FFF;
+    text-align:center;
+}

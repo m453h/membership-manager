@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+
+    <div class="login-area">
+        <div class='col12 login-form-container white-space'>
+            <div class="container">
+                <a href='#'><img class="app-logo" src="{{ asset('images/logo/logo.png') }}"></a>
+                <div class="col12 last">
+                        {% if error %}
+                            <p class="alert-small alert-failure">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+                        {% endif %}
+                        {{ form_start(form) }}
+                        {{ form_row(form._username) }}
+                        {{ form_row(form._password) }}
+                    <div class="space-10"></div>
+                    <button type="submit" class="btn btn-primary btn-full fade" formnovalidate>Login <span class="fa fa-lock"></span></button>
+                        {{ form_end(form) }}
+                </div>
+                <div class="clear"></div>
+                <div class="space-20"></div>
+                <p>Copyright &copy; {{ 'now'|date('Y') }} Pamoja Fund </p>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}

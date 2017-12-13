@@ -1,0 +1,13 @@
+<ul class="breadcrumb">
+{% for breadcrumb_item in knp_menu_get_breadcrumbs_array(knp_menu_get_current_item(item)) %}
+    {% if  loop.first  %}
+        <li><a href="{{ path('app_home_page') }}"><i class="fa fa-home"></i></a></li>
+        <li><a href="{{ path('app_home_page') }}">Home</a></li>
+    {% elseif not loop.last %}
+        <li>/</li>
+        <li><a href="{{ breadcrumb_item.uri }}">{{ breadcrumb_item.label }}</a></li>
+    {% else %}
+       <li>/</li> <li class="active">{{ breadcrumb_item.label }}</li>
+    {% endif %}
+{% endfor %}
+</ul>

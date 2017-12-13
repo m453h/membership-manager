@@ -1,0 +1,9 @@
+{% extends 'knp_menu.html.twig' %}
+
+{% block label %}
+    {% if item.extra('icon') is not null %}
+        <span class="icon-spacer-right"><i class="fa fa-{{ item.extra('icon') }}"></i></span>
+    {% endif %}
+    {{ parent() }}
+{% endblock %}
+

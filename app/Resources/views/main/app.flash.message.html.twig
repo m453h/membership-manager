@@ -1,0 +1,50 @@
+{% for msg in app.session.flashBag.get('success') %}
+    <div class="alert-large alert-success">
+        <div class="section-outer">
+            <span class="close">x</span>
+            <h2>Success</h2>
+            <p>{{ msg }}</p>
+        </div>
+    </div>
+{% endfor %}
+
+                 {% for msg in app.session.flashBag.get('error') %}
+                     <div class="alert-large alert-failure">
+                         <div class="section-outer">
+                             <span class="close">x</span>
+                             <h2>Action Failed</h2>
+                             <p>{{ msg }}</p>
+                         </div>
+                     </div>
+                 {% endfor %}
+
+                 {% for msg in app.session.flashBag.get('info') %}
+                     <div class="alert-large alert-info">
+                         <div class="section-outer">
+                             <span class="close">x</span>
+                             <h2>Information</h2>
+                             <p>{{ msg }}</p>
+                         </div>
+                     </div>
+                 {% endfor %}
+
+                 {% for msg in app.session.flashBag.get('info-more') %}
+                     <div class="alert-large alert-info">
+                         <div class="section-outer">
+                             <span class="close">x</span>
+                             <h2>Information</h2>
+                             <p>{{ msg }}</p>
+                             <p><a href="{{ path('student_bursar_registration_info', {'admissionId':admissionId}) }}"><span class="icon-spacer-right"><i class="fa fa-info-circle" aria-hidden="true"></i></span>Click here to view more student details</a></p>
+                         </div>
+                     </div>
+                 {% endfor %}
+
+                 {% for msg in app.session.flashBag.get('warning') %}
+                     <div class="alert-large alert-warning">
+                         <div class="section-outer">
+                             <span class="close">x</span>
+                             <h2>Warning</h2>
+                             <p>{{ msg }}</p>
+                         </div>
+                     </div>
+                 {% endfor %}
