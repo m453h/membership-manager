@@ -47,6 +47,13 @@ class Employer
     private $email;
 
     /**
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\EmployerType")
+     * @ORM\JoinColumn(name="employer_type_id", referencedColumnName="employer_type_id",nullable=false)
+     */
+    private $employerType;
+
+
+    /**
      * @return mixed
      */
     public function getEmployerId()
@@ -125,5 +132,23 @@ class Employer
     {
         $this->email = $email;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployerType()
+    {
+        return $this->employerType;
+    }
+
+    /**
+     * @param mixed $employerType
+     */
+    public function setEmployerType($employerType)
+    {
+        $this->employerType = $employerType;
+    }
+
+
 
 }
