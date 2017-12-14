@@ -18,10 +18,6 @@ services:
       class: AppBundle\Security\LoginFormAuthenticator
       autowire: true
 
-    app.security.acl_provider:
-          class: AppBundle\Security\ACLSecurityProvider
-          autowire: true
-
     app.security.authentication_failure_event_listener:
       class: AppBundle\Security\AuthenticationFailureListener
       autowire: true
@@ -40,10 +36,7 @@ services:
         tags:
             - { name: twig.extension }
 
-    app.acl_voter:
-            class: AppBundle\Security\ACLVoter
-            autowire: true
-            tags:
-                - { name: security.voter }
-            # small performance boost
-            public: false
+
+    app.helper.benefits_calculator:
+      class: AppBundle\Service\MemberBenefitsCalculator
+      autowire: true
