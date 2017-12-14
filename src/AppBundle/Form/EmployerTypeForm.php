@@ -2,12 +2,12 @@
 
 namespace AppBundle\Form;
 
-use AppBundle\Entity\Benefit;
+use AppBundle\Entity\EmployerType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BenefitFormType extends  AbstractType
+class EmployerTypeForm extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -18,7 +18,12 @@ class BenefitFormType extends  AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-           'data_class' =>Benefit::class
+            'data_class' =>EmployerType::class
         ]);
+    }
+
+    public function getName()
+    {
+        return 'app_bundle_employer_type';
     }
 }

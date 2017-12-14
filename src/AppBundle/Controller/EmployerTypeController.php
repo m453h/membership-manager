@@ -2,21 +2,19 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Benefit;
-use AppBundle\Form\BenefitFormType;
+use AppBundle\Entity\EmployerType;
+use AppBundle\Form\EmployerTypeForm;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
-
-class BenefitController extends Controller
+class EmployerTypeController extends Controller
 {
-
     /**
-     * @Route("/benefit-list", name="list_benefit")
+     * @Route("/employer-type-list", name="list_employer_type")
      * @param Request $request
      * @return Response
      *
@@ -34,12 +32,12 @@ class BenefitController extends Controller
         $em = $this->getDoctrine()->getManager();
 
         //Your custom Doctrine DBAL Query for getting list of All Benefits
-        $qb1 = $em->getRepository('AppBundle:Benefit')
-            ->findAllBenefits();
+        $qb1 = $em->getRepository('AppBundle:EmployerType')
+            ->findAllEmployerType();
 
         //Your custom Doctrine DBAL Query for counting the number of All Benefits
-        $qb2 = $em->getRepository('AppBundle:Benefit')
-            ->countAllBenefits($qb1);
+        $qb2 = $em->getRepository('AppBundle:EmployerType')
+            ->countAllEmployerType($qb1);
 
         //This is a custom Library (PagerFanta that helps us to Paginate Our Results Page)
         $adapter =new DoctrineDbalAdapter($qb1,$qb2);
@@ -50,20 +48,20 @@ class BenefitController extends Controller
 
         //Render the output
         return $this->render(
-            'lists/benefit.html.twig',array(
-                'records'=>$data,
-                'title'=>'List of Benefits',
+            'lists/employer_type.html.twig',array(
+            'records'=>$data,
+            'title'=>'List of Employer Types',
         ));
     }
 
     /**
-     * @Route("/add-benefit", name="add_benefit")
+     * @Route("/add-employer-type", name="add_employer_type")
      * @param Request $request
      * @return Response
      */
     public function newAction(Request $request)
     {
-        $form = $this->createForm(BenefitFormType::class);
+        $form = $this->createForm(EmployerTypeForm::class);
 
         // only handles data on POST
         $form->handleRequest($request);
@@ -75,30 +73,29 @@ class BenefitController extends Controller
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success','Benefit successfully created');
+            $this->addFlash('success','Employer Type successfully created');
 
-            return $this->redirectToRoute('list_benefit');
+            return $this->redirectToRoute('list_employer_type');
         }
 
         return $this->render(
-            'forms/benefit.html.twig',
+            'forms/employer_type.html.twig',
             array(
                 'form'=>$form->createView(),
             )
-
         );
     }
 
 
     /**
-     * @Route("/edit-benefit/{benefitId}", name="edit_benefit",defaults={"benefitId" = null})
+     * @Route("/edit-employer-type/{employerTypeId}", name="edit_employer_type",defaults={"employerTypeId" = null})
      * @param Request $request
-     * @param Benefit $benefit
+     * @param EmployerType $employer_type
      * @return Response
      */
-    public function editAction(Request $request,Benefit $benefit)
+    public function editAction(Request $request,EmployerType $employer_type)
     {
-        $form = $this->createForm(BenefitFormType::class,$benefit);
+        $form = $this->createForm(EmployerTypeForm::class,$employer_type);
 
         $form->handleRequest($request);
 
@@ -110,13 +107,13 @@ class BenefitController extends Controller
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success', 'Benefit successfully updated!');
+            $this->addFlash('success', 'Employer Type successfully updated!');
 
-            return $this->redirectToRoute('list_benefit');
+            return $this->redirectToRoute('list_employer_type');
         }
 
         return $this->render(
-            'forms/benefit.html.twig',
+            'forms/employer_type.html.twig',
             array(
                 'form'=>$form->createView(),
             )
@@ -125,31 +122,30 @@ class BenefitController extends Controller
     }
 
     /**
-     * @Route("/delete-benefit/{benefitId}", name="delete_benefit",defaults={"benefitId" = null})
-     * @param $benefitId
+     * @Route("/delete-employer-type/{employerTypeId}", name="delete_employer_type",defaults={"employerTypeId" = null})
+     * @param $employerTypeId
      * @return Response
      * @internal param Request $request
      */
-    public function deleteAction($benefitId)
+    public function deleteAction($employerTypeId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $data = $em->getRepository('AppBundle:Benefit')->find($benefitId);
+        $data = $em->getRepository('AppBundle:EmployerType')->find($employerTypeId);
 
-        if($data instanceof Benefit)
+        if($data instanceof EmployerType)
         {
             $em->remove($data);
             $em->flush();
-            $this->addFlash('success', 'Benefit successfully removed !');
+            $this->addFlash('success', 'Employer Type successfully removed !');
         }
         else
         {
-            $this->addFlash('error', 'Benefit not found !');
+            $this->addFlash('error', 'Employer Type not found !');
         }
 
-        
-        return $this->redirectToRoute('list_benefit');
+
+        return $this->redirectToRoute('list_employer_type');
 
     }
-    
 }

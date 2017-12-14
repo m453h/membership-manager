@@ -1,10 +1,4 @@
 #Data for benefits
 AppBundle\Entity\Benefit:
-    benefit_0:
-      description: Retirement benefits
-
-    benefit_1:
-      description: Disability benefits
-
-    benefit_2:
-      description: Survivors benefits
+    benefit{1..1000}:
+      description: '<username()>'

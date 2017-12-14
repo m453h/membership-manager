@@ -1,0 +1,16 @@
+{% extends ':main:app.form.html.twig' %}
+
+{% block formTitle %}
+    Employer Type Details
+{% endblock %}
+
+{% block form %}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.email) }}
+    {{ form_row(form.mobile) }}
+    {{ form_row(form.fax) }}
+    {{ form_row(form.employer_type_id) }}
+    <button type="submit" class="btn btn-primary" formnovalidate>Save</button>
+    {{ form_end(form) }}
+{% endblock %}

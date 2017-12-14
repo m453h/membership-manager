@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EmployerTypeRepository")
  * @ORM\Table(name="cfg_employer_types")
  * @Vich\Uploadable
  */
