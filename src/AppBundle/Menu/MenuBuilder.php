@@ -55,7 +55,7 @@ class MenuBuilder
                 ->addChild('Edit Benefit Type', array('route' => 'edit_benefit', 'extras' => []))->setDisplay(false)
                 ->getParent()
             ->getParent()
-            
+
             ->addChild('Manage Members Types', array('route' => 'list_member', 'extras' => []))
                 ->addChild('Add Member', array('route' => 'add_member', 'extras' => []))->setDisplay(false)
                 ->getParent()
