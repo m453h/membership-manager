@@ -5,7 +5,7 @@ namespace AppBundle\Security;
 
 
 
-use AppBundle\Entity\UserAccounts\User;
+use AppBundle\Entity\User;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -23,8 +23,6 @@ class ACLVoter extends Voter
     const RESET = 'reset';
     const BULK_UPLOAD = 'bulk-upload';
     const UPLOAD = 'upload';
-    const COMPLETE_REGISTRATION = 'complete-register';
-    const REGISTER_MODULES = 'register-modules';
     const APPROVE = 'approve';
     const DECLINE = 'decline';
 
@@ -57,7 +55,7 @@ class ACLVoter extends Voter
     protected function supports($attribute, $subject)
     {
         // if the attribute isn't one we support, return false
-        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE, self::BLOCK, self::UNBLOCK, self::RESET,self::ADD,self::COMPLETE_REGISTRATION,self::REGISTER_MODULES,self::APPROVE,self::DECLINE,self::BULK_UPLOAD,self::UPLOAD))) {
+        if (!in_array($attribute, array(self::VIEW, self::EDIT, self::DELETE, self::BLOCK, self::UNBLOCK, self::RESET,self::ADD,self::APPROVE,self::DECLINE,self::BULK_UPLOAD,self::UPLOAD))) {
             return false;
         }
 

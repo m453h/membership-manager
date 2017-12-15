@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 
-use AppBundle\Entity\UserAccounts\SMSCounter;
 use AppBundle\Form\Accounts\LoginForm;
 use AppBundle\Form\Accounts\ResetPasswordForm;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -22,29 +21,88 @@ class SecurityController extends  Controller
      */
     public function loginAction(Request $request)
     {
-
         $key = '_security.main.target_path'; # where "main" is your firewall name
+        $accountStatus = null;
+        $form = null;
+        $error = null;
+        $isAuthenticated = false;
+        $isPasswordExpired=false;
 
-        if ($this->get('session')->has($key))
+        if($this->isGranted('IS_AUTHENTICATED_FULLY'))
         {
-            $this->addFlash('error','You need to login to view this page');
+            $accountStatus = $this->getUser()->getAccountStatus();
+            $isAuthenticated = true;
+
+            $lastPasswordUpdate =  (object) $this->getUser()->getLastPasswordUpdateDate();
+
+            if($lastPasswordUpdate instanceof \DateTime)
+            {
+                $now = new \DateTime();
+                $passwordAge = $now->getTimestamp() - $lastPasswordUpdate->getTimestamp();
+                $passwordAge = ($passwordAge/2629746);
+
+                if($passwordAge>($this->getUser()->getPasswordValidity()))
+                {
+                    $isPasswordExpired = true;
+                }
+            }
+            else
+            {
+                $isPasswordExpired = true;
+            }
         }
 
-        $authenticationUtils = $this->get('security.authentication_utils');
+        //Check and clear URL redirection
+        if ($this->get('session')->has($key))
+        {
+            if($isAuthenticated)
+            {
+                if($accountStatus=='I' || $isPasswordExpired==true)
+                {
+                    $this->get('session')->remove($key);
+                }
+            }
+            else
+            {
+                $this->addFlash('error','You need to login to view this page');
+            }
 
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
+        }
 
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
+        //Check which form to generate
+        if($isAuthenticated==true)
+        {
+            if($accountStatus=='I' || $isPasswordExpired==true)
+            {
+                //Add your logic here
 
-        $form = $this->createForm(LoginForm::class,[
-            '_username'=>$lastUsername //if you fail to login pre-populate username
-        ], [
-            'action' => $this->generateUrl('homepage')
-        ]
+            }
+            else
+            {
+                //Route the user to home page
+                return $this->redirectToRoute('app_home_page');
+            }
+        }
+        else
+        {
+            $authenticationUtils = $this->get('security.authentication_utils');
 
-        );
+            // get the login error if there is one
+            $error = $authenticationUtils->getLastAuthenticationError();
+
+            // last username entered by the user
+            $lastUsername = $authenticationUtils->getLastUsername();
+
+            $form = $this->createForm(LoginForm::class,[
+                '_username'=>$lastUsername //if you fail to login pre-populate username
+            ], [
+                    'action' => $this->generateUrl('login_check')
+                ]
+
+            );
+
+            $formTemplate = 'user.accounts/login';
+        }
 
         return $this->render(
             'main/homepage.html.twig',
@@ -53,7 +111,8 @@ class SecurityController extends  Controller
                 'form' => $form->createView(),
                 'error' => $error,
                 'section' =>'outer',
-                'formTemplate' =>'user.accounts/login.html.twig'
+                'formTemplate' =>$formTemplate,
+                'title' =>'Homepage'
             )
         );
 

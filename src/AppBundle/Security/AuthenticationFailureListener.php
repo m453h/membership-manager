@@ -3,6 +3,7 @@
 namespace AppBundle\Security;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\OptimisticLockException;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\Security\Core\AuthenticationEvents;
 use Symfony\Component\Security\Core\Event\AuthenticationEvent;
@@ -41,7 +42,7 @@ class AuthenticationFailureListener implements EventSubscriberInterface
 
             $username = $value['_username'];
 
-            $user = $this->entityManager->getRepository('AppBundle:UserAccounts\User')->findOneBy(['username'=>$username]);
+            $user = $this->entityManager->getRepository('AppBundle:User')->findOneBy(['username'=>$username]);
 
             $loginTries = $user->getLoginTries()+1;
    
@@ -52,10 +53,24 @@ class AuthenticationFailureListener implements EventSubscriberInterface
             else
             {
                 $user->setLoginTries($loginTries);
-                $this->entityManager->flush();
+                try
+                {
+                    $this->entityManager->flush();
+                }
+                catch (OptimisticLockException $e)
+                {
+
+                }
             }
 
-            $this->entityManager->flush();
+            try
+            {
+                $this->entityManager->flush();
+            }
+            catch (OptimisticLockException $e)
+            {
+
+            }
 
         }
 
@@ -69,7 +84,14 @@ class AuthenticationFailureListener implements EventSubscriberInterface
             if ($user->getLoginTries() > 0)
             {
                 $user->setLoginTries('0');
-                $this->entityManager->flush();
+                try
+                {
+                    $this->entityManager->flush();
+                }
+                catch (OptimisticLockException $e)
+                {
+
+                }
             }
 
         }

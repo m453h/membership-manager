@@ -167,10 +167,10 @@ class BenefitController extends Controller
 
         $message = $response->getBody()->getContents();
 
+
         $benefits = $serializer->deserialize($message,'array<AppBundle\Entity\Benefit>','json');
 
         dump($benefits);
-
         return null;
         //Render the output
     }

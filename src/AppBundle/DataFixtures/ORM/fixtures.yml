@@ -1,4 +1,31 @@
 #Data for benefits
 AppBundle\Entity\Benefit:
-    benefit{1..1000}:
-      description: '<username()>'
+#<<<<<<< HEAD
+#    benefit{1..1000}:
+#      description: '<username()>'
+#=======
+    benefit_0:
+      description: Retirement benefits
+
+    benefit_1:
+      description: Disability benefits
+
+    benefit_2:
+      description: Survivors benefits
+
+
+
+#Dummy User Accounts
+AppBundle\Entity\User:
+    user_0:
+        # use some fake data for this
+        email: test+1@gmail.com
+        password: "$2y$13$qMsTZzzy1otz46yOOGLZs.rUNJzqw6ZuliUU10fFLg3pKJI3HEzH2"
+        username: admin
+        fullName: <firstName()> <lastName()>
+        mobilePhone: 255754<numberBetween(100000, 999999)>
+        accountStatus: A
+        loginTries: 0
+        lastActivity: '<dateTimeBetween("-1 days", "now")>'
+        role: 'ROLE_ADMINISTRATOR,ROLE_STAFF'
+>>>>>>> refs/remotes/origin/master
