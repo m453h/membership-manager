@@ -7,6 +7,7 @@ use AppBundle\Form\BenefitFormType;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,6 +18,7 @@ class BenefitController extends Controller
 {
 
     /**
+     * @Security("is_granted('ROLE_STAFF')")
      * @Route("/benefit-list", name="list_benefit")
      * @param Request $request
      * @return Response
@@ -24,6 +26,7 @@ class BenefitController extends Controller
      */
     public function listAction(Request $request)
     {
+
 
         //This is a query string parameter that lets us know which page we are viewing
         $page = $request->query->get('page',1);
@@ -49,6 +52,7 @@ class BenefitController extends Controller
         $data->setCurrentPage($page);
         $data->getCurrentPageResults();
 
+       $value= $this->get('app.helper.benefits_calculator')->calculateTypeOneBenefits(1000,6);
         //Render the output
         return $this->render(
             'lists/benefit.html.twig',array(
