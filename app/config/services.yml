@@ -40,3 +40,13 @@ services:
     app.helper.benefits_calculator:
       class: AppBundle\Service\MemberBenefitsCalculator
       autowire: true
+
+
+    app.acl_voter:
+            class: AppBundle\Security\ACLVoter
+            autowire: true
+            tags:
+                - { name: security.voter }
+            public: false
+
+

@@ -33,7 +33,9 @@
         "white-october/pagerfanta-bundle": "^1.0",
         "knplabs/knp-snappy-bundle": "^1.4",
         "knplabs/knp-markdown-bundle": "^1.5",
-        "vich/uploader-bundle": "^1.5"
+        "vich/uploader-bundle": "^1.5",
+        "eightpoints/guzzle-bundle": "^7.2",
+        "jms/serializer-bundle": "^2.3"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

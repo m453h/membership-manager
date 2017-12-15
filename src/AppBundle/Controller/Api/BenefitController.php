@@ -1,14 +1,15 @@
 <?php
 
-namespace AppBundle\Controller;
+namespace AppBundle\Controller\Api;
 
 use AppBundle\Entity\Benefit;
 use AppBundle\Form\BenefitFormType;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -18,15 +19,14 @@ class BenefitController extends Controller
 {
 
     /**
-     * @Security("is_granted('ROLE_STAFF')")
-     * @Route("/benefit-list", name="list_benefit")
+     * @Route("/api/benefit-list", name="api_list_benefit")
+     * @Method("GET")
      * @param Request $request
      * @return Response
      *
      */
     public function listAction(Request $request)
     {
-
 
         //This is a query string parameter that lets us know which page we are viewing
         $page = $request->query->get('page',1);
@@ -37,9 +37,8 @@ class BenefitController extends Controller
         //Your entity manager for manipulating database connections
         $em = $this->getDoctrine()->getManager();
 
-        //Your custom Doctrine DBAL Query
-        //// for getting list of All Benefits
-      $qb1 = $em->getRepository('AppBundle:Benefit')
+        //Your custom Doctrine DBAL Query for getting list of All Benefits
+        $qb1 = $em->getRepository('AppBundle:Benefit')
             ->findAllBenefits();
 
         //Your custom Doctrine DBAL Query for counting the number of All Benefits
@@ -47,23 +46,18 @@ class BenefitController extends Controller
             ->countAllBenefits($qb1);
 
         //This is a custom Library (PagerFanta that helps us to Paginate Our Results Page)
-        $adapter =new DoctrineDbalAdapter($qb1,$qb2);
+        $adapter = new DoctrineDbalAdapter($qb1,$qb2);
         $data = new Pagerfanta($adapter);
         $data->setMaxPerPage($maxPerPage);
         $data->setCurrentPage($page);
-        $data->getCurrentPageResults();
+        $records = $data->getCurrentPageResults();
 
-       $value= $this->get('app.helper.benefits_calculator')->calculateTypeOneBenefits(1000,6);
         //Render the output
-        return $this->render(
-            'lists/benefit.html.twig',array(
-                'records'=>$data,
-                'title'=>'List of Benefits',
-        ));
+        return new JsonResponse($records);
     }
 
     /**
-     * @Route("/add-benefit", name="add_benefit")
+     * @Route("/api/add-benefit", name="api_add_benefit")
      * @param Request $request
      * @return Response
      */
@@ -157,5 +151,33 @@ class BenefitController extends Controller
         return $this->redirectToRoute('list_benefit');
 
     }
-    
+
+
+
+    /**
+     * @Route("/api/test-benefit-list", name="api_test_list_benefit")
+     * @param Request $request
+     * @return Response
+     *
+     */
+    public function testListAction(Request $request)
+    {
+
+        $client = $this->get('eight_points_guzzle.client.api_benefits');
+
+        $response = $client->get('/api/benefit-list');
+
+        $serializer = $this->get('jms_serializer');
+
+        $message = $response->getBody()->getContents();
+
+
+        $benefits = $serializer->deserialize($message,'array<AppBundle\Entity\Benefit>','json');
+
+        dump($benefits);
+        return null;
+        //Render the output
+    }
+
+
 }

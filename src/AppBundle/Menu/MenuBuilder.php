@@ -61,11 +61,8 @@ class MenuBuilder
                 ->getParent()
                 ->addChild('Edit Member', array('route' => 'edit_benefit', 'extras' => []))->setDisplay(false)
                 ->getParent()
-            ->getParent()
-
-            ->addChild('Manage Beneficiary Types', array('route' => 'list_beneficiary', 'extras' => []))
-            ->addChild('Edit Beneficiary', array('route' => 'edit_beneficiary', 'extras' => []))->setDisplay(false)
-            ->getParent()
+                ->addChild('View Beneficiary', array('route' => 'view_beneficiary', 'extras' => []))->setDisplay(false)
+                ->getParent()
             ->getParent()
 
         ->getParent();

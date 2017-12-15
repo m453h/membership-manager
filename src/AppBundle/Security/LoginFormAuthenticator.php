@@ -38,7 +38,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $isLoginSubmit = $request->getPathInfo() == '/login_check' && $request->isMethod('POST');
 
         if(!$isLoginSubmit){
-            return null; 
+            return;
         }
 
         $form = $this->formFactory->create(LoginForm::class);
@@ -67,7 +67,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     {
         $username = $credentials['_username'];
 
-        return $this->em->getRepository('AppBundle:UserAccounts\User')
+        return $this->em->getRepository('AppBundle:User')
             ->findOneBy(['username'=>$username]);
     }
 
@@ -84,6 +84,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     
     protected function getLoginUrl()
     {
+
         return $this->router->generate('security_login');
     }
 

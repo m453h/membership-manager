@@ -18,6 +18,8 @@ class MainController extends Controller
 
         $template = 'main/app.dashboard.html.twig';
 
+        $calculator = $this->get('app.helper.benefits_calculator');
+
         $data = array ();
 
         return $this->render(

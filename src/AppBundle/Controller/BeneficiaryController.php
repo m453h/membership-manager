@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Beneficiary;
-use AppBundle\Entity\RelationshipType;
+use AppBundle\Entity\Member;
 use AppBundle\Form\BeneficiaryFormType;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
@@ -18,12 +18,12 @@ class BeneficiaryController extends Controller
 {
 
     /**
-     * @Route("/beneficiary-list", name="list_beneficiary")
+     * @Route("/beneficiary-list/{memberId}", name="view_beneficiary", defaults={"memberId"=null})
      * @param Request $request
+     * @param $memberId
      * @return Response
-     *
      */
-    public function listAction(Request $request)
+    public function listAction(Request $request, $memberId)
     {
 
         //This is a query string parameter that lets us know which page we are viewing
@@ -60,15 +60,14 @@ class BeneficiaryController extends Controller
     }
 
     /**
-     * @Route("/add-beneficiary", name="add_beneficiary")
+     * @Route("/add-beneficiary/{memberId}", name="add_beneficiary", defaults={"memberId" = null})
      * @param Request $request
+     * @param $memberId
      * @return Response
      */
-    public function newAction(Request $request)
+    public function newAction(Request $request, $memberId)
     {
-        $form = $this->createForm(BeneficiaryFormType::class);
-
-        dump($form);
+        $form = $this->createForm(BeneficiaryFormType::class, $memberId);
 
         // only handles data on POST
         $form->handleRequest($request);
@@ -76,6 +75,7 @@ class BeneficiaryController extends Controller
         if ($form->isSubmitted() && $form->isValid())
         {
             $data = $form->getData();
+            dump($data);
             $em = $this->getDoctrine()->getManager();
             $em->persist($data);
             $em->flush();

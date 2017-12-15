@@ -20,7 +20,7 @@ class BeneficiaryFormType extends  AbstractType
             ->add('surname',null,['required'=>true])
             ->add('secondName',null,['required'=>true])
             ->add('sex',null,['required'=>true])
-            ->add('relationshipType', EntityType::class, array(
+            ->add('relationshipTypeId', EntityType::class, array(
                 // query choices from this entity
                 'class' => RelationshipType::class,
 

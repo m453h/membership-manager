@@ -20,4 +20,6 @@ parameters:
 
     #The maximum number of elements to be displayed by the grid view
     grid_per_page_limit:    10
+    api_base_url: http://localhost/projects/membership/web/app_dev.php
+
 
