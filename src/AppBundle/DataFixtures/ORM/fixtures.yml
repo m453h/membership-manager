@@ -1,9 +1,5 @@
 #Data for benefits
 AppBundle\Entity\Benefit:
-#<<<<<<< HEAD
-#    benefit{1..1000}:
-#      description: '<username()>'
-#=======
     benefit_0:
       description: Retirement benefits
 
@@ -28,4 +24,3 @@ AppBundle\Entity\User:
         loginTries: 0
         lastActivity: '<dateTimeBetween("-1 days", "now")>'
         role: 'ROLE_ADMINISTRATOR,ROLE_STAFF'
->>>>>>> refs/remotes/origin/master
