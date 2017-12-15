@@ -14,7 +14,7 @@ class MenuBuilder
 {
 
     private $factory;
-   
+
     /**
      * @var Router
      */
@@ -48,10 +48,20 @@ class MenuBuilder
         $root->setChildrenAttributes(array('id' => 'sidebar-menu'));
 
         $menu->addChild('Configuration', array('uri' => '#', 'extras' => array('icon' => 'wrench')))
+
             ->addChild('Manage Benefit Types', array('route' => 'list_benefit', 'extras' => []))
                 ->addChild('Add Benefit Type', array('route' => 'add_benefit', 'extras' => []))->setDisplay(false)
                 ->getParent()
                 ->addChild('Edit Benefit Type', array('route' => 'edit_benefit', 'extras' => []))->setDisplay(false)
+                ->getParent()
+            ->getParent()
+            
+            ->addChild('Manage Members Types', array('route' => 'list_member', 'extras' => []))
+                ->addChild('Add Member', array('route' => 'add_member', 'extras' => []))->setDisplay(false)
+                ->getParent()
+                ->addChild('Edit Member', array('route' => 'edit_benefit', 'extras' => []))->setDisplay(false)
+                ->getParent()
+                ->addChild('View Beneficiary', array('route' => 'view_beneficiary', 'extras' => []))->setDisplay(false)
                 ->getParent()
             ->getParent()
 

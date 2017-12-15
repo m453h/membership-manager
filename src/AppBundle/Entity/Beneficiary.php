@@ -10,7 +10,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\BeneficiaryRepository")
  * @ORM\Table(name="tbl_beneficiaries")
  * @Vich\Uploadable
  */
