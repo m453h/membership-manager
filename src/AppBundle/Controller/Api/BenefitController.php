@@ -14,7 +14,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
-
 class BenefitController extends Controller
 {
 
@@ -89,7 +88,6 @@ class BenefitController extends Controller
         );
     }
 
-
     /**
      * @Route("/edit-benefit/{benefitId}", name="edit_benefit",defaults={"benefitId" = null})
      * @param Request $request
@@ -152,8 +150,6 @@ class BenefitController extends Controller
 
     }
 
-
-
     /**
      * @Route("/api/test-benefit-list", name="api_test_list_benefit")
      * @param Request $request
@@ -178,6 +174,4 @@ class BenefitController extends Controller
         return null;
         //Render the output
     }
-
-
 }

@@ -11,7 +11,7 @@ namespace AppBundle\Repository;
 use Doctrine\DBAL\Query\QueryBuilder;
 use Doctrine\ORM\EntityRepository;
 
-class EmpRepository
+class EmpRepository extends EntityRepository
 {
     /**
      * @return QueryBuilder
@@ -23,7 +23,7 @@ class EmpRepository
         $queryBuilder = new QueryBuilder($conn);
         $queryBuilder->select('employer_id', 'e.email', 'e.name', 'e.mobile', 'e.fax', 'et.description')
             ->from('tbl_employers', 'e')
-            ->innerJoin('e', 'cfg_employer_types', 'et', 'et.id = e.employer_type_id')
+            ->innerJoin('e', 'cfg_employer_types', 'et', 'et.employer_type_id = e.employer_type_id')
             ->addOrderBy('employer_id','DESC');
 
         return $queryBuilder;

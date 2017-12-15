@@ -1,0 +1,30 @@
+{% extends ':main:app.list.html.twig' %}
+
+{% block actionBar %}
+    <a href="{{ path("add_benefit") }}" class="btn btn-primary add-btn">Add <i class="fa fa-plus"></i></a>
+
+{% endblock %}
+
+{% block table %}
+    <tr>
+        <th class="number">S/N </th>
+        <th>Employee contribution</th>
+        <th>Employer contribution</th>
+        <th>Total contribution</th>
+        <th>Contribution Date</th>
+    </tr>
+
+    {% for record in records %}
+        <tr {% if loop.index%2 !=0 %} class="odd"{% endif %}>
+            <td>{{ loop.index }}</td>
+            <td>{{ record. }}</td>
+            <td>{{ record. }}</td>
+            <td>{{ record. }}</td>
+            <td class="action align-center">
+                <a href="{{ path("edit_benefit",{'benefitId':record.benefit_id}) }}" class="btn btn-yellow" title="Click to edit record"><i class="fa fa-pencil"></i></a>
+                <a href="{{ path("delete_benefit",{'benefitId':record.benefit_id}) }}" class="btn btn-red confirm-delete-modal" title="Click to delete record"><i class="fa fa-trash"></i></a>
+            </td>
+        </tr>
+    {% endfor %}
+
+{% endblock %}

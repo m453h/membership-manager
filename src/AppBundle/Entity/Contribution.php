@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ContributionRepository")
  * @ORM\Table(name="tbl_contributions")
  * @Vich\Uploadable
  */
@@ -28,17 +28,10 @@ class Contribution
 
 
     /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Member")
-     * @ORM\JoinColumn(name="member_id", referencedColumnName="member_id",nullable=false)
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\MemberEmployer")
+     * @ORM\JoinColumn(name="member_employer_id", referencedColumnName="member_employer_id",nullable=false)
      */
-    private $member;
-
-
-    /**
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Employer")
-     * @ORM\JoinColumn(name="employer_id", referencedColumnName="employer_id",nullable=false)
-     */
-    private $employer;
+    private $memberEmployer;
 
 
     /**
@@ -59,6 +52,11 @@ class Contribution
     private $totalContribution;
 
     /**
+     * @ORM\Column(type="date")
+     */
+    private $contributionDate;
+
+    /**
      * @return mixed
      */
     public function getContributionId()
@@ -77,34 +75,19 @@ class Contribution
     /**
      * @return mixed
      */
-    public function getMember()
+    public function getMemberEmployer()
     {
-        return $this->member;
+        return $this->memberEmployer;
     }
 
     /**
      * @param mixed $member
      */
-    public function setMember($member)
+    public function setMemberEmployer($memberEmployer)
     {
-        $this->member = $member;
+        $this->memberEmployer = $memberEmployer;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getEmployer()
-    {
-        return $this->employer;
-    }
-
-    /**
-     * @param mixed $employer
-     */
-    public function setEmployer($employer)
-    {
-        $this->employer = $employer;
-    }
 
     /**
      * @return mixed

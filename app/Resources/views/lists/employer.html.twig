@@ -7,7 +7,11 @@
 {% block table %}
     <tr>
         <th class="number">S/N </th>
-        <th>Description</th>
+        <th>Email</th>
+        <th>Name</th>
+        <th>Mobile</th>
+        <th>Fax</th>
+        <th>Employer Type</th>
         <th>Actions</th>
     </tr>
 
@@ -18,10 +22,10 @@
             <td>{{ record.name }}</td>
             <td>{{ record.mobile }}</td>
             <td>{{ record.fax }}</td>
-            <td>{{ record.email }}</td>
+            <td>{{ record.description }}</td>
             <td class="action align-center">
-                <a href="{{ path("edit_employer_type",{'employerTypeId':record.employer_type_id}) }}" class="btn btn-yellow" title="Click to edit record"><i class="fa fa-pencil"></i></a>
-                <a href="{{ path("delete_employer_type",{'employerTypeId':record.employer_type_id}) }}" class="btn btn-red confirm-delete-modal" title="Click to delete record"><i class="fa fa-trash"></i></a>
+                <a href="{{ path("edit_employer",{'employerId':record.employer_id}) }}" class="btn btn-yellow" title="Click to edit record"><i class="fa fa-pencil"></i></a>
+                <a href="{{ path("delete_employer",{'employerId':record.employer_id}) }}" class="btn btn-red confirm-delete-modal" title="Click to delete record"><i class="fa fa-trash"></i></a>
             </td>
         </tr>
     {% endfor %}

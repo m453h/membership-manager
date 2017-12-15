@@ -2,7 +2,10 @@
 
 namespace AppBundle\Form;
 
+
 use AppBundle\Entity\Employer;
+use AppBundle\Entity\EmployerType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -13,9 +16,9 @@ class EmployerForm extends AbstractType
     {
         $builder
             ->add('email', null, ['required' => true])
-            ->add('employer_type_id', EntityType::class, array(
-                'class' => Employer::class,
-                'choice_label' => 'employer_type',
+            ->add('employerType', EntityType::class, array(
+                'class' => EmployerType::class,
+                'choice_label' => 'description',
             ))
             ->add('name', null, ['required' => true])
             ->add('mobile', null, ['required' => true])
@@ -25,7 +28,7 @@ class EmployerForm extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            'data_class' => EmployerType::class
+            'data_class' => Employer::class
         ]);
     }
 

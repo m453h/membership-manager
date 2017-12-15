@@ -8,7 +8,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\EmpRepository")
  * @ORM\Table(name="tbl_employers")
  * @Vich\Uploadable
  */

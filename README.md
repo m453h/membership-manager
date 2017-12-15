@@ -11,3 +11,5 @@ Third party bundles used in this project include:
 * doctrine/doctrine-fixtures-bundle
 * vich/uploader-bundle
 * white-october/pagerfanta-bundle
+
+* friendsofsymfony/fosuserbundle
