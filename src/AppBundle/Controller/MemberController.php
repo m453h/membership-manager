@@ -2,8 +2,8 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Benefit;
-use AppBundle\Form\BenefitFormType;
+use AppBundle\Entity\Member;
+use AppBundle\Form\MemberFormType;
 use Pagerfanta\Adapter\DoctrineDbalAdapter;
 use Pagerfanta\Pagerfanta;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -13,11 +13,11 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 
-class BenefitController extends Controller
+class MemberController extends Controller
 {
 
     /**
-     * @Route("/benefit-list", name="list_benefit")
+     * @Route("/member/member-list", name="list_member")
      * @param Request $request
      * @return Response
      *
@@ -36,12 +36,12 @@ class BenefitController extends Controller
 
         //Your custom Doctrine DBAL Query
         //// for getting list of All Benefits
-      $qb1 = $em->getRepository('AppBundle:Benefit')
-            ->findAllBenefits();
+      $qb1 = $em->getRepository('AppBundle:Member')
+            ->findAllMembers();
 
         //Your custom Doctrine DBAL Query for counting the number of All Benefits
-        $qb2 = $em->getRepository('AppBundle:Benefit')
-            ->countAllBenefits($qb1);
+        $qb2 = $em->getRepository('AppBundle:Member')
+            ->countAllMember($qb1);
 
         //This is a custom Library (PagerFanta that helps us to Paginate Our Results Page)
         $adapter =new DoctrineDbalAdapter($qb1,$qb2);
@@ -52,20 +52,20 @@ class BenefitController extends Controller
 
         //Render the output
         return $this->render(
-            'lists/benefit.html.twig',array(
+            'member/member_list.html.twig',array(
                 'records'=>$data,
-                'title'=>'List of Benefits',
+                'title'=>'List of Members',
         ));
     }
 
     /**
-     * @Route("/add-benefit", name="add_benefit")
+     * @Route("/member/add-member", name="add_member")
      * @param Request $request
      * @return Response
      */
     public function newAction(Request $request)
     {
-        $form = $this->createForm(BenefitFormType::class);
+        $form = $this->createForm(MemberFormType::class);
 
         // only handles data on POST
         $form->handleRequest($request);
@@ -77,13 +77,13 @@ class BenefitController extends Controller
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success','Benefit successfully created');
+            $this->addFlash('success','Member successfully created');
 
-            return $this->redirectToRoute('list_benefit');
+            return $this->redirectToRoute('list_member');
         }
 
         return $this->render(
-            'forms/benefit.html.twig',
+            'member/member.html.twig',
             array(
                 'form'=>$form->createView(),
             )
@@ -93,14 +93,14 @@ class BenefitController extends Controller
 
 
     /**
-     * @Route("/edit-benefit/{benefitId}", name="edit_benefit",defaults={"benefitId" = null})
+     * @Route("/member/edit-member/{memberId}", name="edit_member",defaults={"memberId" = null})
      * @param Request $request
-     * @param Benefit $benefit
+     * @param Member $member
      * @return Response
      */
-    public function editAction(Request $request,Benefit $benefit)
+    public function editAction(Request $request,Member $member)
     {
-        $form = $this->createForm(BenefitFormType::class,$benefit);
+        $form = $this->createForm(MemberFormType::class,$member);
 
         $form->handleRequest($request);
 
@@ -112,13 +112,13 @@ class BenefitController extends Controller
             $em->persist($data);
             $em->flush();
 
-            $this->addFlash('success', 'Benefit successfully updated!');
+            $this->addFlash('success', 'Member successfully updated!');
 
-            return $this->redirectToRoute('list_benefit');
+            return $this->redirectToRoute('list_member');
         }
 
         return $this->render(
-            'forms/benefit.html.twig',
+            'member/member.html.twig',
             array(
                 'form'=>$form->createView(),
             )
@@ -127,30 +127,30 @@ class BenefitController extends Controller
     }
 
     /**
-     * @Route("/delete-benefit/{benefitId}", name="delete_benefit",defaults={"benefitId" = null})
-     * @param $benefitId
+     * @Route("/member/delete-member/{memberId}", name="delete_member",defaults={"memberId" = null})
+     * @param $memberId
      * @return Response
      * @internal param Request $request
      */
-    public function deleteAction($benefitId)
+    public function deleteAction($memberId)
     {
         $em = $this->getDoctrine()->getManager();
 
-        $data = $em->getRepository('AppBundle:Benefit')->find($benefitId);
+        $data = $em->getRepository('AppBundle:Member')->find($memberId);
 
-        if($data instanceof Benefit)
+        if($data instanceof Member)
         {
             $em->remove($data);
             $em->flush();
-            $this->addFlash('success', 'Benefit successfully removed !');
+            $this->addFlash('success', 'Member successfully removed !');
         }
         else
         {
-            $this->addFlash('error', 'Benefit not found !');
+            $this->addFlash('error', 'Member not found !');
         }
 
         
-        return $this->redirectToRoute('list_benefit');
+        return $this->redirectToRoute('list_member');
 
     }
     

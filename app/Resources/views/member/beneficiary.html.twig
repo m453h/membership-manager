@@ -1,0 +1,17 @@
+{% extends ':main:app.form.html.twig' %}
+
+{% block formTitle %}
+    Beneficiary Details
+{% endblock %}
+
+{% block form %}
+    {{ form_start(form) }}
+    {{ form_row(form.firstName) }}
+    {{ form_row(form.secondName) }}
+    {{ form_row(form.surname) }}
+    {{ form_row(form.sex) }}
+    {{ form_row(form.dateOfBirth) }}
+    {{ form_row(form.relationshipType) }}
+    <button type="submit" class="btn btn-primary" formnovalidate>Save</button>
+    {{ form_end(form) }}
+{% endblock %}

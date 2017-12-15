@@ -12,7 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 
 /**
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\MemberRepository")
  * @ORM\Table(name="tbl_members")
  * @Vich\Uploadable
  */

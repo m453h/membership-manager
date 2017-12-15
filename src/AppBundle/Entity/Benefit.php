@@ -26,6 +26,8 @@ class Benefit
 
     /**
      * @ORM\Column(type="string", nullable=true)
+     * @Assert\NotBlank
+     *
      */
     private $description;
 

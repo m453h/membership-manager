@@ -8,3 +8,6 @@ AppBundle\Entity\Benefit:
 
     benefit_2:
       description: Survivors benefits
+
+    benefit_3:
+      description: Maternity benefits
